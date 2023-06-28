@@ -1,0 +1,99 @@
+웹개발2 day_03
+오라클 -> 오라클설치 -> sql 쿼리
+
+1.데이터베이스
+데이터베이스(DataBase)
+	데이터가 모여있는 기지
+	데이터는 물리적인 파일로 저장되어 있으나 직접 열어서 조회하고 수정하는 것이 아니라
+	DBMS 에서 SQL이라는 언어를 통해  조회 , 수정을 하게된다
+
+DBMS(DataBase Management System)
+	DB를 관리할 수 있는 구체적인 체계(시스템)
+	Oracle , My SQL, MariaDB, MS-SQL, MongoDB, ...
+	
+	오라클 : 대기업, 중견기업(유료) 교육용 오라클 무료 등 사용
+		A/S 빠름
+	MySQL, MariaDB : 대기업 , 중소기업 , 강소기업 사용
+			클라우드쪽에 default
+			트랙잭션이 좋음
+	MS -SQL : 오래된 DB
+		예전 C언어 기반 ASP 비싸고 예전에 핫함 -> .NET
+	MongoDB: no-sql , 시각적으로 정리된 것 을 볼 수 없음
+		일반 문자열 값 안에서 텍스트 기반의 key-value 묶어서 관리
+		가벼움 (몽구스 표로 볼수있습니다)
+	DB에 존재하는 데이터를 편하고 효율적으로 관리하는 환경을 제공하는 프로그램
+
+2. 오라클	
+오라클DBMS 버전
+	9, 11, 17, 21
+	i  : internet을 의미
+		8i 1998년 출시
+		9i 2001년 출시
+	g : 그리드컴퓨팅(rgrid computer)
+		10g release1 2003
+		11g release1 2007.09
+	c : 클라우드(cloud) 의미 
+
+RDBMS(Relational DataBase Management System)
+	관계형 데이터베이스 관리 시스템
+	데이터를 2차원의 테이블(표)형태로 저장해 놓은 데이터 베이스
+	
+	표준화된 명령어를 SQL
+	
+3. SQL
+SQL(Structured Query Language)
+	구조화된 표준 쿼리 언어
+	데이터베이스관리시스템(DBMS)의 데이터를 관리하기 위해 설계된 언어
+	명령어 SQL문 , 쿼리문 , 질의문이라고 말하기도 한다
+	
+	테이블(table)
+		행(row)과 열(column)으로 이루어진 2차원의 표
+		행(row) : 가로줄 , 튜플 레코드 인스턴스
+		열(column) : 세로줄, 필드, 속성(attribute)
+
+
+오라클 기본계정이 존재한다
+	sys : Oracl DBMS 관리자 계정
+		테이블 삭제 , 다른 사용자의 접근권한 제어 등
+	system : DBMS 운영을 위한 관리자 계정
+		이미 만들어진 것들을 관리하는 계정 접근권한은 제어 못함
+	hr(휴먼 리소스) : 학습을 위한 계정
+	
+권한
+	sysdba : 데이터베이스 생성 및 삭제 등 모든 권한을 의미한다 (sys가 갖는 권한)
+	sysoper: 데이터베이스 운영을 위한 권한 (system 이 갖는 권한)
+
+[명령어]cmd창에 입력
+	>sqlplus
+	
+	hr계정에 접근하려할때 잠금이 되어있어서 접근불가 , 계정에 아래 명령어와 같이 입력	
+	> sys as sysdba
+	> (비밀번호)1234
+
+	hr계정 잠금해제
+	>alter user hr account unlock;
+	결과 User altered
+
+	hr계정 비밀번호 변경
+	>alter user hr identified by 비밀번호;
+	(참고)동시에 잠금해제와 비밀번호 변경
+	>alter user hr account unlock identified by 비밀번호;
+
+	유저변경
+	>conn 계정명/비밀번호
+
+	현재 접속한 계정 확인
+	>show user
+	
+	데이터가 들어가 있는 지 확인
+	>select first_name from employees;
+	
+	종료
+	>exit
+
+* hr 계정으로 접속 pw 1111변경
+	1. sqlplus
+	2. 관리자로 접속 후 변경
+	3. hr 계정 연결
+
+4. DBeaver
