@@ -1,106 +1,116 @@
 day07
+복습 -> DDL -> 무결성 -> DML2
+
+0. 복습
+	CRUD
+	생성, 읽기, 수정, 삭제의 약자
+	기본적인 데이터 처리 기능
 
 	SQL문 종류
-	- DDL : 데이터 정의 언어 (CREATE, DROP , ALTER, TRUNCATE)
-	- DML : 데이터 조작 언어 (SELECT, 
-	- DCL : 
-	- TCL : 
-	
-	제약조건
-	PK	: NULL 허용X,중복값 허용X
-	FK :다른테이블의 PK ,중복값 허용O
-	UK : NULL 허용O, 중복값 허용 X
+	- DDL : 데이터 정의 언어(CREATE, DROP, ALTER, TRUNCATE)
+	- DML : 데이터 조작 언어(SELECT, INSERT, UPDATE, DELETE)
+	- DCL : 데이터 제어 언어
+	- TCL : 트랜잭션 제어 언어
+
+1. 제약조건
+	PK	: NULL 허용X, 중복값 허용X
+	FK	: 다른 테이블의 PK, 중복값 허용O
+	UK	: NULL 허용O, 중복값 허용X
 	NOT NULL : NULL을 허용하지 않는다
-	CHECK(칼럼명 = 값1, 컬럼명 = 값2, ...) : 특정 컬럼에 특정 값만 허용하고 싶을때 사용하는 제약조건
-				우리가 원하늗 특정값이 들어왔는지 체크한다
+	CHECK(컬럼명 = 값1, 컬럼명 = 값2, ...) : 특정 컬럼에 특정 값만 허용하고 싶을 때 사용하는 제약조건
+				우리가 원하는 특정값이 들어왔는지 체크해준다
 	조합키(복합키)
 		두 개이상의 컬럼을 KEY로 지정하는 것
+		테이블에 한개의 PK만 존재할 수 있지만 조합키를 사용하면 두 개 이상의 컬럼을 하나의 PK로 사용할 수 있다
 
-무결성	: 데이터에 변함이 없다
-	데이터의 정확성, 일관성 , 유효성이 유지되는 것
-
+무결성	: 데이터에 결함이 없다
+	데이터의 정확성, 일관성, 유효성이 유지되는 것
+	
 무결성을 판단하는 3가지
 	1. 정확성 : 데이터는 애매하지 않아야한다
 	2. 일관성 : 각 사용자가 일관된 데이터를 볼 수 있도록 해야한다
 	3. 유효성 : 데이터가 실제 존재하는 데이터야 한다
-
+		
 무결성의 3가지 종류
 	1. 개체 무결성
-		모든 케이블이 PK로 선탣된 컬럼을 가져야한다
+		모든 테이블이 PK로 선택된 컬럼을 가져야한다
 	2. 참조 무결성
-		두 테이블의 데이터가 항상일관된 값을 가지도록 유지하는 것
+		두 테이블의 데이터가 항상 일관된 값을 가지도록 유지하는 것
 	3. 도메인 무결성
-		컬럼의 타입, NULL 값의 허용등에 대한 사항을 정의 하고 올바른 데이터가 입력되었는지 확인하는 것
-	
+		컬럼의 타입, NULL 값의 허용등에 대한 사항을 정의하고 올바른 데이터가 입력되었는지를 확인하는 것
+
 모델링(기획)
 	1. 요구사항 분석
-		회원 , 주문 , 상품: 3가지를 관리하고자 한다
-	
-	2.개념적 설계(개념 모델링)
-		회원 : 아이디, 비밀번호 , 이름 , 생일 , 주소, 이메일 주소
-		주문 : 주문번호, 주문날짜, 아이디, 상품번호,...
-		상품 : 상품번호 , 상품명 , 가격, 재고량, ...
+		회원, 주문, 상품 : 3가지를 관리하고자 한다
 
-	3. 논리적  설계(논리 모델링)
-		회원	주문	상품
-		아이디	주문번호	상품번호
-		비밀번호	주문날짜	상품명
-		이름	아이디	가격
-		주소	상품번호	재고량
-		이메일
-		생일 
+	2. 개념적 설계(개념 모델링)
+		회원 : 아이디, 비밀번호, 이름, 생일, 주소, 이메일주소, ...
+		주문 : 주문번호, 주문날짜, 아이디, 상품번호, ...
+		상품 : 상품번호, 상품명, 가격, 재고량, ...
 
-	회원 PK :아이디
-	회원 FK : 회원
+	3. 논리적 설계(논리 모델링)
+		회원	주문		상품
+		아이디PK	주문번호PK	상품번호PK
+		비밀번호	주문날짜		상품명
+		이름	아이디FK		가격
+		주소	상품번호FK	재고량
+		이메일UK
+		생일
+
+	회원 PK : 아이디
+	회원 FK : 없다 
 	회원 UK : 이메일
-	회원 조합키 :없다
-	
-	주문PK : 주문번호
-	주문FK : 아이디, 상품번호
-	주문UK : 없다
+	회원 조합키 : 없다
 
-	상품PK : 상품번호
-	상품FK :	없다
-	상품UK : 없다
-	상품 조합키 :없다	
+	주문 PK : 주문번호
+	주문 FK : 아이디, 상품번호	
+	주문 UK : 없다
+	주문 조합키 : 없다
+
+	상품 PK : 상품번호
+	상품 FK : 없다
+	상품 UK : 없다
+	상품 조합키 : 없다
 
 	4. 물리적 설계(물리 모델링)
+
 	TBL_USER
 	USER_ID : VARCHAR2(1000) : PRIMARY KEY
-	---------------------------------------
+	--------------------------------------
 	USER_PASSWORD : VARCHAR2(1000)
 	USER_NAME : VARCHAR2(1000)
-	USER_ADDRESS : VARCHAR2(1000) : UNIQUE
+	USER_ADDRESS : VARCHAR2(1000)
+	USER_EMAIL : VARCHAR2(1000) : UNIQUE
 	USER_BIRTH : DATE
-
-	5.구현
+	
+	5. 구현
 		물리적 설계를 보면서 코드를 작성하면 된다
 
------------------------------------------------------------------------------------
-1. 기업의 오청사항은 다음과 같다
-	핸드폰과 핸드폰케이스 판매기업
+---------------------------------------------------------------------------
+1. 기업의 요구사항은 다음과 같다
+	핸드폰과 핸드폰 케이스 판매하는 기업
 	핸드폰을 구매하면 핸드폰 케이스도 같이 구매한다
-	핸드폰 제품번호 , 색상, 사이즈 , 가격, 제조일, 할인률
-	케이스 제품번호 색상 , 가격
-	핸드폰은 특정 케이스만 같이 구입할수 있다
+	핸드폰 제품번호, 색상, 사이즈, 가격, 제조일, 할인률
+	케이스 제품번호, 색상, 가격
+	핸드폰은 특정 케이스만 같이 구입할 수 있다
 	
 	케이스가 부모테이블일 경우 케이스 PK를 핸드폰 FK로 갖게 된다
-	1종류의 케이스는 1 종류의 핸드폰만 낄수 있다
-	1종류의 핸드폰 여러종류케이스를 낄수 있다
+	1종류의 케이스는 1종류의 핸드폰만 낄수 있다
+	1종류의 핸드폰 여러 종류 케이스를 낄수있다
 	
 	핸드폰 테이블을 부모 테이블로 둬야한다
-	하나의 폰이 여러케이스를 사용하기 위함이다
-	
+	하나의 폰이 여러 케이스를 사용하기 위함이다
 
-2.개념적 설계
+2. 개념적 설계
 	폰		케이스
 	제품번호		제품번호
 	색상		색상
 	사이즈		가격
-	가격		
+	가격
 	제조일
 	할인률
-		
+
+
 
 3. 논리적 설계(제약조건)
 	폰		케이스
@@ -111,97 +121,69 @@ day07
 	제조일
 	할인률
 
-4. 물리적 설계(실제타입)
 
-CREATE TABLE TBL_PHONE(
-	PHONE_NUMBER NUMBER : PRIMARY KEY
-	PHONE_COLOR : VARCHAR2(1000) 
+4. 물리적 설계(실제 타입)
+	TBL_PHONE
+	-----------
+	PHONE_NUMBER : NUMBER : PRIMARY KEY
+	PHONE_COLOR : VARCHAR2(1000)
 	PHONE_SIZE : NUMBER
 	PHONE_PRICE : NUMBER
 	PHONE_PRODUCTION_DATE : DATE
-	PHONE_SALE : NUMBER
+	PHONE_SALE : NUMBER 
 
-CREATE TABLE TBL_CASE(
+	TBL_CASE
+	-----------
 	CASE_NUMBER : NUMBER : PRIMARY KEY
-	CASE_COLOR : VARCHAR2(1000) 
+	CASE_COLOR : VARCHAR2(1000)
 	CASE_PRICE : NUMBER
 	PHONE_NUMBER : NUMBER : FOREIGN KEY
 
-
-5.구현
-CREATE TABLE TBL_PHONE(
-	PHONE_NUMBER NUMBER CONSTRAINT PK_PHONE_NUMBER PRIMARY KEY,
-	PHONE_COLOR VARCHAR2(1000) ,
-	PHONE_SIZE NUMBER,
-	PHONE_PRICE NUMBER,
-	PHONE_PRODUCTION_DATE DATE,
-	PHONE_SALE NUMBER
-	);
-
-CREATE TABLE TBL_CASE(
-	CASE_NUMBER NUMBER CONSTRAINT PK_CASE_NUMBER PRIMARY KEY,
-	CASE_COLOR VARCHAR2(1000) ,
-	CASE_PRICE NUMBER,
-	PHONE_NUMBER NUMBER	,
-	CONSTRAINT FK_PHONE_NUMBER FOREIGN KEY(PHONE_NUMBER) REFERENCES TBL_PHONE(PHONE_NUMBER)
-);
+5. 구현
 
 
 
---5시 40분까지 만들기
---도서관에서 회원의 정보와 책의 정보가 필요하다.
---회원의 정보는 회원번호, 이름, 나이, 핸드폰 번호, 주소가 필요하고
---책의 정보는 도서번호, 책이름, 장르가 필요하다.
---단, 장르는 인문학, 추리, IT, 로맨스
---한 명의 회원은 여러권의 책을 빌릴 수 있다.
---테이블 명 MEMBER, BOOK
-
-2.개념적 설계
-	회원 : 회원번호 , 이름, 나이, 핸드폰번호, 주소
-	책 : 도서번호, 책이름, 장르	
-
-3. 논리적 설계(제약조건)
-	회원		책
-	회원번호(PK)	도서번호(PK)
-	이름		책이름
-	나이		장르
-	핸드폰번호		회원번호(FK)
-	주소
-	
-4. 물리적 설계(실제타입)
-
-CREATE TABLE TBL_MEMBER(
-	MEMBER_NUMBER NUMBER : PRIMARY KEY
-	MEMBER_NAME VARCHAR2(1000)
-	MEMBER_AGE NUMBER
-	MEMBER_PHONE VARCHAR2(1000)
-	MEMBER_ADDRESS VARCHAR2(1000)
-	
-
-CREATE TABLE TBL_BOOK(
-	BOOK_NUMBER  NUMBER : PRIMARY KEY
-	BOOK_NAME VARCHAR2(1000) 
-	BOOK_TYPE VARCHAR2(1000)
-	MEMBER_NUMBER NUMBER : FOREIGN KEY
+---------------------------------------------------
+책 테이블이 부모,	회원 테이블이 자식
+책		회원
+도서번호(PK)	회원번호	도서번호(FK)
+1		1	1	
+2		2	2
+3		3	1
+		
+회원테이블이 부모, 책테이블이 자식
+회원		책
+회원번호(PK)	도서번호(PK)	회원번호(FK)
+1		1		1, 3, 4
+2		2		1
+3		3		3
+4		4		2, 3
 
 
-5.구현
-CREATE TABLE TBL_PHONE(
-	PHONE_NUMBER NUMBER CONSTRAINT PK_PHONE_NUMBER PRIMARY KEY,
-	PHONE_COLOR VARCHAR2(1000) ,
-	PHONE_SIZE NUMBER,
-	PHONE_PRICE NUMBER,
-	PHONE_PRODUCTION_DATE DATE,
-	PHONE_SALE NUMBER
-	);
+회원 테이블 : 회원번호 PK
+책 테이블 : 도서번호 PK, 회원번호 FK, 장르 CHECK
 
-CREATE TABLE TBL_CASE(
-	CASE_NUMBER NUMBER CONSTRAINT PK_CASE_NUMBER PRIMARY KEY,
-	CASE_COLOR VARCHAR2(1000) ,
-	CASE_PRICE NUMBER,
-	PHONE_NUMBER NUMBER	,
-	CONSTRAINT FK_PHONE_NUMBER FOREIGN KEY(PHONE_NUMBER) REFERENCES TBL_PHONE(PHONE_NUMBER)
-);
 
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
