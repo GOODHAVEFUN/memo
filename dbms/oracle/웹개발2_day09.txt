@@ -1,0 +1,108 @@
+day09
+복습 -> 집계함수 -> GROUP BY, HAVING절, SUB QUERY -> JOIN
+
+DDL => 테이블
+	CREATE DROP ALTER TRUNCATE
+DML => 데이터 조작
+	INSERT UPDATE DELETE SELECT
+TCL => 트랜잭션 제어
+	COMMIT ROLLBACK
+DCL => 사용 권한
+	GRANT REVOKE
+
+함수
+	기능이다
+
+집계함수
+	평균	AVG()
+	최대값	MAX()
+	최소값	MIN()
+	총합	SUM()
+	개수	COUNT()
+
+GROUP BY, HAVING 절
+	GROUP BY 절은 특정 컬럼에 있는 값을 그룹으로 묶어서 데이터를 집계한다
+	ORDER BY와 동일하게 SELECT문에서 사용하며 위치는 WHERE 절 다음, ORDER BY절 이전에 작성한다
+	HAVING 절은 GROUP BY 다음에 사용할 수 있으며 
+	SELECT의 WHERE절처럼 GROUP BY의 HAVING도 조건을 걸어준다
+	WHERE절은 쿼리 전체에 조건을 걸어 데이터 가져오며
+	그 데이터들을 GROUP BY로 묶어 주는데 묶은 데이터에 조건이 필요하다면 HAVING절에 작성하면된다
+	최종 결과가 나오면 ORDER BY로 정렬한다
+
+SQL 실행순서
+	FROM > WHERE > GROUP BY > HAVING > SELECT > ORDER BY
+
+SUB 쿼리
+	하나의 쿼리 내에 작성하는 또 다른 쿼리
+	서브 쿼리의 위치에 따른 종류
+		1. FROM 절 : IN LINE VIEW
+		2. SELECT 절 : SCALAR
+		3. WHERE 절 :  SUB QUERY
+		일반적으로 전부 서브쿼리라고 부른다
+
+ROWNUM
+	결과 행 앞에 1부터 1씩 증가하는 시퀀스를 붙여준다
+
+JOIN
+	여러 테이블에 흩어져있는 정보 중
+	사용자가 필요한 정보만 가져와서 가상의 테이블처럼 만들고 결과를 보여주는 것
+	
+	정규화를 통해 조회 테이블이 너무 많이 쪼개져 있으면 작업이 불편하기 때문에
+	입력, 수정, 삭제의 성능을 향상시키기 위해서 JOIN을 통해 합친 후 사용한다
+
+내부조인(INNER JOIN)
+	조건이 정확히 일치하는 값만 합쳐서 조회
+	
+	FROM 테이블명A INNER JOIN 테이블명B
+	ON 조건
+
+	A테이블의 col 컬럼과 B테이블의 col이라는 컬럼을
+	조건으로 비교하여 참일 경우 가상테이블에 합쳐져서 추가된다
+	a와 a를 비교하면 같다라는 조건이 성립되므로 참이 된다
+	그러므로 가상의 테이블에 추가되고 나머지 컬럼과 비교하면 거짓이다
+	b를 다시 B테이블의 값과 비교하여 성립되는 행과 합쳐져 추가된다
+
+등가조인
+	ON절 등호(=)가 있을 때
+	두 테이블 간의 관계가 있다면(FK가 존재한다면) 부모 테이블의 PK와 자식 테이블의 FK를
+	등호로 비교가 가능하기 때문에 등가조인 사용이 가능하다
+
+비등가조인
+	ON절에 등호(=)가 없을 때
+
+SQL의 실행순서
+	FROM > ON > JOIN > WHERE > GROUP BY > HAVING > SELECT > ORDER BY
+
+	ON절의 조건은 JOIN이 되면서 실행되고, WHERE 절의 조건은 JOIN이 모두 끝나고 나서 실행된다
+	ON과 WHERE를 같이 사용할 때와 ON만 사용할 때의 결과가 같다면 ON만 사용하는 것이 좋다
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
