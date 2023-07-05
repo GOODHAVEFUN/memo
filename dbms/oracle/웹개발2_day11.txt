@@ -1,0 +1,186 @@
+day11
+외부 조인 -> View -> DCL -> 데이터베이스 ->테이블 관련용어 ->데이터 모델링
+
+외부조인(OUTER JOIN)
+	내부조인과 다르게 한쪽에만 값이 있어도 테이블을 합쳐서 보여준다
+	
+	TBL_GRADE
+	GRADE_NUM(PK)	GRADE_NAME
+	1		VVIP
+	2		vip
+	3		NORMAL
+
+	TBL_USER_TEST
+	USER_NUM(PK)   USER_ID      GRADE_NUM(FK)
+  	 1      	A      		1
+   	 2      	B      		2
+
+- DB과제(7/5)
+* PLAYER 테이블에서 키가 NULL인 선수들의 키를 170으로 변경하여 평균 조회
+* PLAYER 테이블에서 팀 별 최대 몸무게 조회
+* AVG 함수 쓰지 않고 PLAYER 테이블에서 선수들의 평균 키 구하기(NULL 미포함)
+* PLAYER 테이블에서 팀 별 최대 몸무게인 선수 전체 정보 검색
+
+
+형변환 함수
+	TO_CHAR() :CHAR형으로 형변환\
+	날짜 형식 변경할때 유용하다
+	TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		형식 : 'YYYY-MM-DD' , 'YYYY/MM/DD',...
+		YYYY : 년, MM : 월, DD : 일
+		HH24 : 24시간, HH12 : 12시간, MI : 분, SS : 초
+	TO_NUMBER() : NUMBER 형으로 변환
+	TO_DATE() : DATE 형으로 변환
+
+집합
+	UNION :합집합 중복허용안함
+	UNION ALL : 합집합, 중복 허용
+	INTERSECT : 교집합
+	MINUS : 차집합
+
+UNION과 JOIN의 공통점은 두테이블을 같이 조회 할 때 사용한다
+JOIN은 두테이블을 가로 방향으로 합치고 UNION은 세로 방향으로 합친다
+UNION은 반드시 열의 수와 타입이 같아야한다
+
+VIEW 
+	기존의 테이블을 그대로 놔둔채 필요한 컬럼들밑 새로운 컬럼을 만든 가상테이블
+	실제로 데이터가 저장되는것은 아니지만 VIEW를 통해 데이터를 관리할수있다
+
+	독립성 : 다른 곳에서 원본테이블에 접근하지 못하도록 하는 성질
+	편리성 : 긴쿼리문을 짧게 만드는 성질
+	보안성 : 기존의 쿼리문이 보이지않는다
+
+VIEW 문법
+	CREATE VIEW 뷰이름 AS 쿼리문;
+
+계정만들기
+   [cmd]
+   sys 계정으로 접속하여 계정을 생성한다
+   CREATE USER 계정이름 IDENTIFIED BY 비밀번호;
+
+   CREATE SESSION 권한부여하기
+   -- sys 계정으로 로그인 후 권한 부여
+   GRANT CREATE SESSION TO 계정명;
+   
+   -- test 계정으로 로그인
+   conn test/1234
+
+   -- hr 계정의 employees 테이블 조회하기
+   select * from hr.employees;
+   -- 오류 접근 권한이 없음
+
+   -- sys 계정으로 로그인 후 권한 부여(select)
+   grant select on hr.employees to test;
+
+   -- test 계정으로 로그인
+   -- 현재 계정의 권한 확인
+   select * from user_tab_privs_recd;
+
+	-- 현재 계정이 부여한 권한 확인
+	select 
+
+   -- hr 계정의 employees 테이블 조회하기
+   select * from hr.employees;
+
+	[디비버 - HR 계정 접속 상태]
+	--권한 부여
+	GRANT UPDATE , DELETE, INSERT ON EMPLOYEES TO TEST;
+
+	--권한 회수하기 
+	REVOKE SELECT , DELETE , INSERT ON EMPLOYEES FROM TEST;
+
+	계정 삭제하기
+	DROP USER 계정이름;
+
+DCL : 데이터 제어
+	데이터 베이스에 접근하는 접근 권한을 제어하는 명령어
+	
+	GRANTD
+		계정에 권한부여		
+		GRANTD 권한 ON 테이블명 TO 계정명;
+		
+	REVOKE
+		권한 제거 회수
+		REVOKE 권한 ON 테이블명 FROM 계정명;
+
+CASE 표현식
+   CASE
+      WHEN 조건1 THEN 값1
+      WHEN 조건2 THEN 값2
+      ...
+      ELSE 값
+   END
+
+   조건1을 만족하는 행은 값1을 결과로 갖는다
+   조건2를 만족하는 행은 값2를 결과로 갖는다
+   ...
+   위의 모든 조건을 만족하지 않는 행은 ELSE의 값을 결과로 갖는다
+   ELSE를 생략하면 모든 조건을 만족하는 경우 NULL이 들어간다
+
+1. 데이터 베이스 
+	구조적인 형태를 위해서 나름 효율적인 데이터 저장 규칙이 존재한다
+데이터 특징
+	통합된 데이터(Inergrated Data) : 중복된 데이터를 통합하여 자료의 중복을 최소화한 데이터의 모임
+	저장된 데이터(Stored Data)
+	운영 데이터(Operational Data)
+	공유 데이터(Shared Data)
+	
+기능 특징
+	실시간 접근이 가능(Realtime Accessibility)
+	끊임없이 동적으로 변화(Continuos Evolution)
+	여러사용자가 동시에 공용(Concurrent Sharing)
+	내용에 의한 참조(Content referencing)
+	
+데이터 베이스 언어의 종류
+	SQL(Structured Query Language)
+	DDL	데이터정의어	CREATE, DROP, ALTERCATE
+	DML	데이터 조작어	SELECT, INSERT,UPDATE,DELETE
+	DCL	데이터 제어어	GRANT, REVOKE
+	TCL	트랜잭션 제어어	COMMIT, ROLLBACK
+
+
+2. 테이블(Table)관련용어
+	릴레이션		테이블
+	튜플		행/레코드
+	애트리뷰트		열
+	
+1) 릴레이션
+	튜블들의 집합
+	각 릴레이션은 오직 하난의 레코드 타입만 포함	 
+	각 애트리뷰트 내의 값들은 모두 같은 유형
+	애트리뷰트의 순서는 중요하지 않음
+	동일한 튜플이 두개 이상 존재하지 않음
+	한 튜플의 각 애트리뷰트는 원자값을 가짐
+
+2) 릴레이션 키
+	튜플을 고유하게 식별할 수 있는 하나 이상의 애트리뷰트의 모임
+	PK,FK,UK
+
+3) 릴레이션 스키마(내포) =>구조
+	릴레이션의 이름과 릴레이션의 애트리뷰트들의 집합
+
+4) 릴레이션 인스턴스(외연) => 실제값
+	릴레이션에 어느 시점에 들어있는 튜플들의 집합
+	시간의 흐름에 따라 계속 변함
+
+5) 열과 행(컬럼과 로우 / 어트리뷰트와 튜플)
+	열은 테이블에서 열을 의미
+	열의 수는 Degree
+	행은 테이블에서 행을 의미
+	행의 수는 Cardinality
+
+6) null 값 의미
+	데이터의 부재
+	알수 없음
+	값의 부적절함
+	
+3. 데이터 모델링
+1) 데이터 모델링 순서 절차
+	업무파악(요구사항 수집 및 분석)
+	개념적 데이터 모델링
+	논리적 데이터 모델링(key, 속성, 관계, 정규화등)
+	물리적 데이터 모델링(데이터베이스를 선택하고, 실제 테이블을 만드는 작업)
+	구현
+2)ERD
+	ERD(Entity Relationship Diagram)	
+	
