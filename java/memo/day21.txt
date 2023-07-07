@@ -1,0 +1,21 @@
+소프트웨어 디자인 설계 패턴
+	MVC
+Model 자바 클래스 필드  = 컬럼명들
+VO : select * 컬럼명이 바뀌지않을때
+DTO : select from t1 join t2,select from t1 union select from t2 컬럼명이 바뀔때
+
+model : 테이블에서 조회더ㅘㅣㄴ 결과값을  담기위한 킇ㄹ스
+	클래스명 뒤에 vo dto 라는 무자열을 붙인다
+	vo 테이블을 보고 그대로 만드는 객체
+	dto 화면에 결과를 한번에 묶어서 전달할 객체
+
+	v 사용자게 보여질부분
+	c에선언된 crud 메소드 사용부분
+
+	c jsp에서 자세히
+		dao data access object 케이블에 접긑할수 있는 메소드들이 선언된클래스
+		클래스명에 뒤 에ㅐ dao 문자열을 붙여준다
+		접근 후 결과값이 있을 경우 model 객체에 담은후 처리
+
+
+

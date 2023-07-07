@@ -62,8 +62,8 @@ ArrayList 메소드
 	---------------------------------
 	|		|	 	|
   	List		Set		Map
-	ArrayList		HashSet		HashMap
-	ListedList		TreeSet		HashTable
+	ArrayList	HashSet		HashMap
+	ListedList	TreeSet		HashTable
 	Vector				TreeMap
 
 2. Set : 집합
